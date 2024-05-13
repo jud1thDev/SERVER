@@ -2,7 +2,6 @@ package com.efub.leadtoyproject.cart.domain;
 
 
 import com.efub.leadtoyproject.cartitem.domain.CartItem;
-import com.efub.leadtoyproject.item.domain.Item;
 import com.efub.leadtoyproject.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
