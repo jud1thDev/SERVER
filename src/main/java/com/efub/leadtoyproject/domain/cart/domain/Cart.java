@@ -22,7 +22,7 @@ public class Cart {
     @Builder.Default
     private Long count = 0L;
 
-    @Column(name = "totalPrice")
+    @Column(name = "total_price")
     @Builder.Default
     private Long totalPrice = 0L;
 
