@@ -4,6 +4,8 @@ import com.efub.leadtoyproject.member.domain.Member;
 import com.efub.leadtoyproject.product.domain.Product;
 import com.efub.leadtoyproject.reviewimg.domain.ReviewImg;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -34,8 +36,9 @@ public class Review {
     private LocalDateTime createdDate;
 
     @Column(name = "rating")
+    @Min(value = 1) @Max(value = 5)
     @NotNull
-    private String rating;
+    private Integer rating; // 별점: 1~5 사이의 값
 
     // FK
     @ManyToOne(fetch = FetchType.LAZY)

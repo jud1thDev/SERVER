@@ -2,7 +2,8 @@ package com.efub.leadtoyproject.member.domain;
 
 import com.efub.leadtoyproject.cart.domain.Cart;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @Getter
@@ -16,8 +17,8 @@ public class Member {
     @Column(name = "member_id", updatable = false)
     private Long memberId;
 
-    @Column(nullable = false, length = 60)
-    @NotNull
+    @Column(name = "email")
+    @NotBlank
     private String email;
 
     @Column(name = "access_token")
