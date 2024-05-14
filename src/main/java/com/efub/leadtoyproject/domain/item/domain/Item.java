@@ -35,5 +35,5 @@ public class Item {
     // FK
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    private Product productId;
+    private Product product;
 }
