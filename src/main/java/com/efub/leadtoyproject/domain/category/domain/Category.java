@@ -25,6 +25,7 @@ public class Category {
 
     @Column(name = "product_type", updatable = false)
     @NotNull
+    @Enumerated(EnumType.STRING)
     private ProductType productType;
 
     // 양방향
