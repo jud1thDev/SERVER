@@ -22,6 +22,7 @@ public class Item {
 
     @Column(name = "status")
     @NotNull
+    @Enumerated(EnumType.STRING)
     private ItemStatus status;
 
     @Column(name = "store")
