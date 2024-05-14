@@ -28,7 +28,7 @@ public class Category {
     private ProductType productType;
 
     // 양방향
-    @OneToMany(mappedBy = "product_id")
+    @OneToMany(mappedBy = "category")
     @Builder.Default
     private List<Product> products = new ArrayList<>();
 }
