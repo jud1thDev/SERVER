@@ -22,6 +22,7 @@ public class Item {
 
     @Column(name = "status")
     @NotNull
+    @Enumerated(EnumType.STRING)
     private ItemStatus status;
 
     @Column(name = "store")
@@ -35,5 +36,5 @@ public class Item {
     // FK
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    private Product productId;
+    private Product product;
 }

@@ -25,10 +25,11 @@ public class Category {
 
     @Column(name = "product_type", updatable = false)
     @NotNull
+    @Enumerated(EnumType.STRING)
     private ProductType productType;
 
     // 양방향
-    @OneToMany(mappedBy = "product_id")
+    @OneToMany(mappedBy = "category")
     @Builder.Default
     private List<Product> products = new ArrayList<>();
 }
