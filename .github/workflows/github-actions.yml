@@ -10,7 +10,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      # JDK setting - github actions에서 사용할 JDK 설정
+    	# JDK setting - github actions에서 사용할 JDK 설정
       - uses: actions/checkout@v3
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -18,7 +18,7 @@ jobs:
           java-version: 17
           distribution: 'zulu'
 
-	    # repository secrets에 올린 APPLICATION_PROD로 application.yml 생성
+	# repository secrets에 올린 APPLICATION_PROD로 application.yml 생성
       - name: Make application.yml
         run: |
           mkdir ./src/main/resources 
@@ -41,14 +41,14 @@ jobs:
           chmod +x ./gradlew
           ./gradlew build -x test
       
-      # ID, PW를 이용해 Docker hub에 로그인
+	# ID, PW를 이용해 Docker hub에 로그인
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Docker 이미지 빌드 후 푸시
+	# Docker 이미지 빌드 후 푸시
       - name: Docker build & push
         uses: docker/build-push-action@v2
         with:
@@ -63,7 +63,7 @@ jobs:
           # 이미지 태그 지정
           tags: ${{ secrets.DOCKER_REPO }}:latest
 
-      # SSH를 사용하여 EC2에 명령을 전달
+	# SSH를 사용하여 EC2에 명령을 전달
       - name: Deploy to Server
         uses: appleboy/ssh-action@master
         with:
