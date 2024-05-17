@@ -4,13 +4,16 @@ package com.efub.leadtoyproject.domain.cart.domain;
 import com.efub.leadtoyproject.domain.cartitem.domain.CartItem;
 import com.efub.leadtoyproject.domain.member.domain.Member;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor // Member 만들 때 함께 생성되어야 함
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Cart {
     @Id
@@ -19,12 +22,10 @@ public class Cart {
     private Long cartId;
 
     @Column(name = "count")
-    @Builder.Default
-    private Long count = 0L;
+    private Long count;
 
     @Column(name = "total_price")
-    @Builder.Default
-    private Long totalPrice = 0L;
+    private Long totalPrice;
 
     // FK
     @OneToOne(fetch = FetchType.LAZY)
@@ -33,6 +34,13 @@ public class Cart {
 
     // 양방향
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<CartItem> cartItems = new ArrayList<>();
+    private List<CartItem> cartItems;
+
+    @Builder
+    public Cart(Member member) {
+        this.member = member;
+        this.cartItems = new ArrayList<>();
+        this.count = 0L;
+        this.totalPrice = 0L;
+    }
 }
