@@ -26,11 +26,9 @@ public class Member {
     @Column(name = "refresh_token")
     private String refreshToken;
 
-    // 양방향
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private Cart cart = new Cart();
-
-    // TODO: token의 nullable 여부 조사 필요
 }
 
 

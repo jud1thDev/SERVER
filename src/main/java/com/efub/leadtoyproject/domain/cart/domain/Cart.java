@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor // Member 만들 때 함께 생성되어야 함
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Builder
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,12 +28,10 @@ public class Cart {
     @Builder.Default
     private Long totalPrice = 0L;
 
-    // FK
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", updatable = false)
     private Member member;
 
-    // 양방향
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<CartItem> cartItems = new ArrayList<>();
