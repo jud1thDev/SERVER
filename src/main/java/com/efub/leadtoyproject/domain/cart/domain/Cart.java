@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor // Member 만들 때 함께 생성되어야 함
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Cart {
     @Id
@@ -33,6 +33,11 @@ public class Cart {
 
     // 양방향
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<CartItem> cartItems = new ArrayList<>();
+    private List<CartItem> cartItems;
+
+    @Builder
+    public Cart(Member member) {
+        this.member = member;
+        this.cartItems = new ArrayList<>();
+    }
 }
