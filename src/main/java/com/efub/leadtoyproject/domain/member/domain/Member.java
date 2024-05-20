@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
@@ -28,9 +27,14 @@ public class Member {
 
     // 양방향
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Cart cart = new Cart();
+    private Cart cart;
 
-    // TODO: token의 nullable 여부 조사 필요
+    @Builder
+    public Member(Long memberId, @NotBlank String email, String accessToken, String refreshToken) {
+        this.memberId = memberId;
+        this.email = email;
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+        this.cart = new Cart(this);
+    }
 }
-
-

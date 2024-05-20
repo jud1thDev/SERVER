@@ -3,6 +3,7 @@ package com.efub.leadtoyproject.domain.review.dto;
 import com.efub.leadtoyproject.domain.member.domain.Member;
 import com.efub.leadtoyproject.domain.product.domain.Product;
 import com.efub.leadtoyproject.domain.review.domain.Review;
+import com.efub.leadtoyproject.domain.reviewimg.domain.ReviewImg;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -11,23 +12,25 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewRequestDto {
-    @NotNull
-    @Size(min=1, max=50)
     private String content;
-
-    @NotNull
     private Integer rating;
+    private Long productId;
+    private Long memberId;
+    private List<String> imgPaths;
 
-    public Review toEntity(Member member, Product product){
+    public Review toEntity(Member member, Product product, List<ReviewImg> imgPaths) {
         return Review.builder()
-                .member(member)
-                .product(product)
                 .content(this.content)
                 .rating(this.rating)
+                .product(product)
+                .member(member)
+                .reviewImgs(imgPaths)
                 .build();
     }
 
