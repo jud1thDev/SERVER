@@ -24,13 +24,12 @@ public class ReviewRequestDto {
     private Long memberId;
     private List<String> imgPaths;
 
-    public Review toEntity(Member member, Product product, List<ReviewImg> imgPaths) {
+    public Review toEntity(Product product, Member member) {
         return Review.builder()
                 .content(this.content)
                 .rating(this.rating)
                 .product(product)
                 .member(member)
-                .reviewImgs(imgPaths)
                 .build();
     }
 

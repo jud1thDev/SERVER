@@ -27,7 +27,7 @@ public class ReviewController {
     @PostMapping("/{productId}/reviews")
     @ResponseStatus(value = HttpStatus.CREATED)
     public ReviewResponseDto registerReview(@PathVariable Long productId, @RequestBody @Valid final ReviewRequestDto requestDto) {
-        Review registeredReview = reviewService.registerReview(requestDto);
+        Review registeredReview = reviewService.registerReview(productId, requestDto);
         return ReviewResponseDto.from(registeredReview);
     }
 
