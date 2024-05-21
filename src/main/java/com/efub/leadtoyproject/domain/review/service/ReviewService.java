@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -37,8 +38,9 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public List<Review> findAllReviews() {
-        return reviewRepository.findAll();
+    public List<Review> findAllReviews(Long productId) {
+        Product product = productService.findProductById(productId);
+        return reviewRepository.findAllByProduct(product);
     }
 
     @Transactional(readOnly = true)
