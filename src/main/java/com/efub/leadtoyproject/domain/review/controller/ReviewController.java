@@ -26,15 +26,18 @@ public class ReviewController {
     // 리뷰등록
     @PostMapping("/{productId}/reviews")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ReviewResponseDto registerReview(@PathVariable Long productId, @RequestBody @Valid final ReviewRequestDto requestDto) {
+    public ReviewResponseDto registerReview(@PathVariable("productId") final Long productId,
+                                            @RequestBody @Valid final ReviewRequestDto requestDto,
+                                            @RequestHeader(value = "Authorization") String authorizationHeader) {
+        // 예외처리 추가
         Review registeredReview = reviewService.registerReview(productId, requestDto);
         return ReviewResponseDto.from(registeredReview);
     }
 
     // 리뷰 전체 조회
     @GetMapping("/{productId}/reviews")
-    public List<ReviewResponseDto> getAllReviews() {
-        List<Review> reviews = reviewService.findAllReviews();
+    public List<ReviewResponseDto> getAllReviews(@PathVariable("productId") final Long productId) {
+        List<Review> reviews = reviewService.findAllReviews(productId);
         return reviews.stream()
                 .map(ReviewResponseDto::from)
                 .collect(Collectors.toList());
@@ -44,7 +47,7 @@ public class ReviewController {
     // 리뷰 삭제
     @DeleteMapping("/reviews/{reviewId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteReview(@PathVariable Long reviewId, @RequestHeader(value = "Authorization") String authorizationHeader) {
+    public void deleteReview(@PathVariable("reviewId") Long reviewId, @RequestHeader(value = "Authorization") String authorizationHeader) {
         if (!authService.validateToken(authorizationHeader)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
