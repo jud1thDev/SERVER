@@ -21,22 +21,22 @@ public class ReviewResponseDto {
     private LocalDateTime createdDate;
     private Long productId; // product필드 넣을지 고민
     private Long memberId;
-    private List<ReviewImgResponseDto> reviewImgs;
+    private List<String> imgPaths;
 
-    public static ReviewResponseDto from (Review review){
-        List <ReviewImgResponseDto> imgDtos = review.getReviewImgs().stream()
-                .map(ReviewImgResponseDto::from)
+    public ReviewResponseDto(Review review) {
+        this.reviewId = review.getReviewId();
+        this.content = review.getContent();
+        this.rating = review.getRating();
+        this.createdDate = review.getCreatedDate();
+        this.productId = review.getProduct().getProductId();
+        this.memberId = review.getMember().getMemberId();
+        this.imgPaths = review.getReviewImages().stream()
+                .map(reviewImg -> reviewImg.getImgPath())
                 .collect(Collectors.toList());
+    }
 
-        return new ReviewResponseDto(
-                review.getReviewId(),
-                review.getContent(),
-                review.getRating(),
-                review.getCreatedDate(),
-                review.getProduct().getProductId(),
-                review.getMember().getMemberId(),
-                imgDtos
-                );
+    public static ReviewResponseDto from(Review review) {
+        return new ReviewResponseDto(review);
     }
 
 }

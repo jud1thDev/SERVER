@@ -9,13 +9,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewImgResponseDto {
-    private Long reviewImgId;
+    private Long id;
+    private String originalName;
+    private String storedName;
     private String imgPath;
 
-    public static ReviewImgResponseDto from(ReviewImg reviewImg){
-        return new ReviewImgResponseDto(
-                reviewImg.getReviewImgId(),
-                reviewImg.getImgPath()
-        );
+    public ReviewImgResponseDto(ReviewImg reviewImg) {
+        this.id = reviewImg.getId();
+        this.originalName = reviewImg.getOriginalName();
+        this.storedName = reviewImg.getStoredName();
+        this.imgPath = reviewImg.getImgPath();
     }
 }
