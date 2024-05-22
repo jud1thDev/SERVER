@@ -22,7 +22,6 @@ public class ReviewRequestDto {
     private Integer rating;
     private Long productId;
     private Long memberId;
-    private List<String> imgPaths;
 
     public Review toEntity(Product product, Member member) {
         return Review.builder()

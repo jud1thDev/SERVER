@@ -5,12 +5,17 @@ import com.efub.leadtoyproject.domain.review.domain.Review;
 import com.efub.leadtoyproject.domain.review.dto.ReviewRequestDto;
 import com.efub.leadtoyproject.domain.review.dto.ReviewResponseDto;
 import com.efub.leadtoyproject.domain.review.service.ReviewService;
+import com.efub.leadtoyproject.domain.reviewimg.dto.ReviewImgResponseDto;
+import com.efub.leadtoyproject.image.ImgService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,11 +32,23 @@ public class ReviewController {
     @PostMapping("/{productId}/reviews")
     @ResponseStatus(value = HttpStatus.CREATED)
     public ReviewResponseDto registerReview(@PathVariable("productId") final Long productId,
-                                            @RequestBody @Valid final ReviewRequestDto requestDto,
-                                            @RequestHeader(value = "Authorization") String authorizationHeader) {
-        // 예외처리 추가
-        Review registeredReview = reviewService.registerReview(productId, requestDto);
+                                            @RequestPart("review")  final String reviewJson,
+                                            @RequestPart("files") List<MultipartFile> files) throws IOException {
+
+        // JSON 문자열을 ReviewRequestDto 객체로 변환
+        ObjectMapper objectMapper = new ObjectMapper();
+        ReviewRequestDto requestDto = objectMapper.readValue(reviewJson, ReviewRequestDto.class);
+
+        Review registeredReview = reviewService.registerReview(productId, requestDto, files);
         return ReviewResponseDto.from(registeredReview);
+    }
+
+    // 이미지 업로드
+    @PostMapping("/reviews/{reviewId}/images")
+    public ReviewImgResponseDto uploadReviewImage(
+            @PathVariable Long reviewId,
+            @RequestParam("file") MultipartFile file) throws IOException {
+        return reviewService.saveReviewImage(reviewId, file);
     }
 
     // 리뷰 전체 조회
