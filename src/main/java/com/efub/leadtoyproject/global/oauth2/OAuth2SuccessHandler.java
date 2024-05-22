@@ -28,6 +28,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         // 헤더 Authorization에 Bearer Token 담기
         response.addHeader("Authorization", "Bearer " + accessToken);
-        response.sendRedirect("/redirect"); // 로그인에 성공 시 /redirect 으로 이동됨
+        response.sendRedirect("/login/loading"); // 로그인 성공 시 /login/loading으로 이동
     }
 }
