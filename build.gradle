@@ -38,6 +38,8 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.12.4'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.4'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.4'
+    //aws s3
+    implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.445'
 }
 
 tasks.named('test') {
