@@ -1,4 +1,4 @@
-package com.efub.leadtoyproject.config;
+package com.efub.leadtoyproject.global.config;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
