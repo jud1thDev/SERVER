@@ -57,6 +57,7 @@ public class ReviewController {
 
     // 리뷰 전체 조회
     @GetMapping("/{productId}/reviews")
+    @ResponseStatus(HttpStatus.OK)
     public List<ReviewResponseDto> getAllReviews(@PathVariable("productId") final Long productId) {
         List<Review> reviews = reviewService.findAllReviews(productId);
         return reviews.stream()
