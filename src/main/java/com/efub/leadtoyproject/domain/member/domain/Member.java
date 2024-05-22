@@ -22,19 +22,21 @@ public class Member {
     @Column(name = "access_token")
     private String accessToken;
 
-    @Column(name = "refresh_token")
-    private String refreshToken;
+//    @Column(name = "refresh_token")
+//    private String refreshToken;
 
     // 양방향
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private Cart cart;
 
     @Builder
-    public Member(Long memberId, @NotBlank String email, String accessToken, String refreshToken) {
+    public Member(Long memberId, @NotBlank String email) {
         this.memberId = memberId;
         this.email = email;
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
         this.cart = new Cart(this);
+    }
+
+    public void updateAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 }

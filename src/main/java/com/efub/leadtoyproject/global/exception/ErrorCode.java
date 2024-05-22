@@ -13,6 +13,10 @@ public enum ErrorCode {
     ERROR(400, "요청 처리에 실패했습니다."),
     ENTITY_NOT_FOUND(404, "해당 엔티티를 찾을 수 없습니다."),
 
+    // Oauth2
+    ILLEGAL_REGISTRATION_ID(500, "잘못된 registrationId입니다."),
+    INVALID_TOKEN(401, "잘못된 토큰입니다."),
+    INVALID_JWT_SIGNATURE(401, "토큰이 만료되었습니다."),
     // Member
     MEMBER_NOT_FOUND(404, "해당 사용자를 찾을 수 없습니다."),
 
