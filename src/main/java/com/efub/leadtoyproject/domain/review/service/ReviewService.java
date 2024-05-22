@@ -45,6 +45,7 @@ public class ReviewService {
         Member member = memberService.findMemberById(dto.getMemberId());
 
         Review review = dto.toEntity(product, member);
+        reviewRepository.save(review);
 
         for (MultipartFile multipartFile : files) {
             if (multipartFile != null && !multipartFile.isEmpty()) {
@@ -64,7 +65,6 @@ public class ReviewService {
             }
         }
 
-        reviewRepository.save(review);
         return review;
     }
 
