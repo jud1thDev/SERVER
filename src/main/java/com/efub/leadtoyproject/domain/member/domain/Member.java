@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
@@ -23,12 +22,21 @@ public class Member {
     @Column(name = "access_token")
     private String accessToken;
 
-    @Column(name = "refresh_token")
-    private String refreshToken;
+//    @Column(name = "refresh_token")
+//    private String refreshToken;
 
+    // 양방향
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private Cart cart = new Cart();
+    private Cart cart;
+
+    @Builder
+    public Member(Long memberId, @NotBlank String email) {
+        this.memberId = memberId;
+        this.email = email;
+        this.cart = new Cart(this);
+    }
+
+    public void updateAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
 }
-
-

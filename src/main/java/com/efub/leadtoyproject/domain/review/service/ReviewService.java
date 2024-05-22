@@ -10,6 +10,7 @@ import com.efub.leadtoyproject.domain.review.repository.ReviewRepository;
 import com.efub.leadtoyproject.domain.reviewimg.domain.ReviewImg;
 import com.efub.leadtoyproject.domain.reviewimg.dto.ReviewImgResponseDto;
 import com.efub.leadtoyproject.domain.reviewimg.repository.ReviewImgRepository;
+import com.efub.leadtoyproject.global.login.AuthUtils;
 import com.efub.leadtoyproject.image.ImgService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,19 +31,20 @@ public class ReviewService {
     private final MemberService memberService;
     private final ImgService imgService;
     private final ReviewImgRepository reviewImgRepository;
+    private final AuthUtils authUtils;
 
     @Autowired
-    public ReviewService(ReviewRepository reviewRepository, ProductService productService, MemberService memberService, ImgService imgService, ReviewImgRepository reviewImgRepository) {
+    public ReviewService(ReviewRepository reviewRepository, ProductService productService, MemberService memberService, ImgService imgService, ReviewImgRepository reviewImgRepository, AuthUtils authUtils) {
         this.reviewRepository = reviewRepository;
         this.productService = productService;
         this.memberService = memberService;
         this.imgService = imgService;
         this.reviewImgRepository = reviewImgRepository;
+        this.authUtils = authUtils;
     }
 
-    public Review registerReview(Long productId, ReviewRequestDto dto, List<MultipartFile> files) throws IOException {
+    public Review registerReview(Long productId, ReviewRequestDto dto, List<MultipartFile> files, Member member) throws IOException {
         Product product = productService.findProductById(productId);
-        Member member = memberService.findMemberById(dto.getMemberId());
 
         Review review = dto.toEntity(product, member);
         reviewRepository.save(review);
@@ -99,8 +101,14 @@ public class ReviewService {
         return reviewRepository.existsById(reviewId);
     }
 
-    public void deleteReview(Long reviewId) {
+    public void deleteReview(Long reviewId) throws IllegalAccessException {
         Review review = findReviewById(reviewId);
+
+        Member currentMember = authUtils.getMember();
+        if (currentMember == null || !currentMember.getMemberId().equals(review.getMember().getMemberId())) {
+            throw new IllegalAccessException("리뷰 삭제 권한이 없습니다.");
+        }
+
         reviewRepository.delete(review);
     }
 

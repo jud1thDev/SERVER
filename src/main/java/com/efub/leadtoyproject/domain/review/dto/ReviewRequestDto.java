@@ -21,7 +21,6 @@ public class ReviewRequestDto {
     private String content;
     private Integer rating;
     private Long productId;
-    private Long memberId;
 
     public Review toEntity(Product product, Member member) {
         return Review.builder()
