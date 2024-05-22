@@ -13,16 +13,4 @@ import lombok.NoArgsConstructor;
 public class AllProductResponseDto {
     private List<ProductResponseDto> products;
     private int totalProducts;
-
-    public static ProductResponseDto from(Product product) {
-        return new ProductResponseDto(
-                product.getProductId(),
-                product.getCategory() != null ? product.getCategory().getCategoryId() : null,
-                product.getProductName(),
-                product.getOriginalPrice(),
-                product.getInfo(),
-                product.getStockQuantity(),
-                product.getAvgRating()
-        );
-    }
 }

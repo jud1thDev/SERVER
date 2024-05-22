@@ -20,6 +20,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p JOIN p.category c WHERE c.productType = :productType")
     List<Product> findByProductType(ProductType productType);
 
+    @Query("SELECT p FROM Product p WHERE p.productName LIKE %:productName%")
+    List<Product> findByProductNameContaining(@Param("productName") String productName);
+
     @Query("SELECT DISTINCT p FROM Product p " +
             "JOIN FETCH p.items i " +
             "JOIN FETCH p.category c " +
