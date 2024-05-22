@@ -4,6 +4,7 @@ import com.efub.leadtoyproject.domain.category.domain.ProductType;
 import com.efub.leadtoyproject.domain.item.repository.ItemRepository;
 import com.efub.leadtoyproject.domain.product.domain.Product;
 import com.efub.leadtoyproject.domain.product.dto.ProductDto;
+import com.efub.leadtoyproject.domain.product.dto.ProductResponseDto;
 import com.efub.leadtoyproject.domain.product.repository.ProductRepository;
 import java.awt.print.Pageable;
 import java.util.List;
@@ -36,4 +37,9 @@ public class ProductService {
         return productRepository.findByProductType(productType);
     }
 
+    public List<ProductResponseDto> searchProductsByName(String productName) {
+        return productRepository.findByProductNameContaining(productName).stream()
+                .map(ProductResponseDto::from)
+                .collect(Collectors.toList());
+    }
 }
