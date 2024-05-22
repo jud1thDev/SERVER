@@ -28,6 +28,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         response.addHeader("Authorization", "Bearer " + accessToken);
         log.info("카카오 로그인에 성공하였습니다. 발급된 accessToken: " + accessToken);
         String redirectUrl = "http://localhost:3000/login/loading";
-        response.sendRedirect(redirectUrl); // 로그인 성공 시 /login/loading으로 이동
+//        response.sendRedirect(redirectUrl); // 로그인 성공 시 /login/loading으로 이동
+        response.sendRedirect(redirectUrl+"?accessToken="+accessToken); // redirectUrl에 accessToken을 담아 보냄
     }
 }
