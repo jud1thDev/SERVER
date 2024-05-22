@@ -11,6 +11,7 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,28 @@ public class Review {
 
     // 양방향
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<ReviewImg> reviewImgs = new ArrayList<>();
+    private List<ReviewImg> reviewImages = new ArrayList<>();
+
+    @Builder
+    public Review(String content, Integer rating, Product product, Member member) {
+        this.content = content;
+        this.rating = rating;
+        this.product = product;
+        this.member = member;
+        this.reviewImages = new ArrayList<>();
+    }
+
+//    public void addReviewImage(ReviewImg reviewImg) {
+//        this.reviewImages.add(reviewImg);
+//        reviewImg.setReview(this);
+//    }
+
+    public void addReviewImage(ReviewImg reviewImg) {
+        if (this.reviewImages == null) {
+            this.reviewImages = new ArrayList<>();
+        }
+        this.reviewImages.add(reviewImg);
+        reviewImg.setReview(this);
+    }
+
 }
