@@ -24,10 +24,10 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException, ServletException {
         // accessToken 발급
         String accessToken = tokenProvider.generateAccessToken(authentication);
-        log.info("카카오 로그인에 성공하였습니다. 발급된 accessToken: " + accessToken);
-
         // 헤더 Authorization에 Bearer Token 담기
         response.addHeader("Authorization", "Bearer " + accessToken);
-        response.sendRedirect("/login/loading"); // 로그인 성공 시 /login/loading으로 이동
+        log.info("카카오 로그인에 성공하였습니다. 발급된 accessToken: " + accessToken);
+        String redirectUrl = "http://localhost:3000/login/loading";
+        response.sendRedirect(redirectUrl); // 로그인 성공 시 /login/loading으로 이동
     }
 }
