@@ -43,7 +43,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 
         // 6. AuthDetails 로 반환
         log.info("OAuth2UserService - loadUser() : AuthDetails로 반환합니다.");
-        return new AuthDetails(oAuth2UserAttributes, userNameAttributeName, member);
+        return new AuthDetails(oAuth2UserAttributes, userNameAttributeName, oAuth2Attributes.getOauth2UserEmail());
     }
 
     private Member getOrSave(OAuth2Attributes oAuth2Attributes) {

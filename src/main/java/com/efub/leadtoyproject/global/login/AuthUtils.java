@@ -5,36 +5,29 @@ import com.efub.leadtoyproject.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
 public class AuthUtils {
 
-    public Member getMember() {
-        Object principalObject = getPrincipal();
+    private final MemberRepository memberRepository;
 
-        if (principalObject instanceof UserDetails) {
-            AuthDetails authDetails = (AuthDetails) principalObject;
-            log.info("AuthUtils - getMember() : 현재 로그인된 Member 객체를 반환합니다.");
-            return authDetails.getMember();
-        }
-        return null;
+    public Member getMember() {
+        return memberRepository.findByEmail(getCurrentMemberEmail()).get();
     }
 
-    public Long getMemberId() {
+    public String getCurrentMemberEmail() {
         Object principalObject = getPrincipal();
 
         if (principalObject instanceof UserDetails) {
             AuthDetails authDetails = (AuthDetails) principalObject;
             log.info("AuthUtils - getMemberId() : 현재 로그인된 Member 객체의 ID를 반환합니다.");
-            return authDetails.getMember().getMemberId();
+            return authDetails.getUsername();
         }
         return null;
     }
