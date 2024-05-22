@@ -43,4 +43,14 @@ public class Cart {
         this.count = 0L;
         this.totalPrice = 0L;
     }
+
+    public void addCartItem(Long count, Long price){
+        this.totalPrice += count * price;
+        this.count += count;
+    }
+
+    public void deleteCartItem(Long count, Long price){
+        this.totalPrice -= count * price;
+        this.count -= count;
+    }
 }

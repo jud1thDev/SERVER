@@ -24,4 +24,9 @@ public class CartItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id", updatable = false)
     private Item item;
+
+    public CartItem(Cart cart, Item item) {
+        this.cart = cart;
+        this.item = item;
+    }
 }
