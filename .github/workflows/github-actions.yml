@@ -1,16 +1,16 @@
 name: CI/CD using GitHub Actions & Docker
 
+# main, deploy 브랜치에 push하면 워크플로우 실행
 on:
   push:
-    branches: [ "deploy", "main" ]
-  pull_request:
-    branches: [ "deploy", "main" ]
+    branches: [ "main", "deploy" ]  
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -22,7 +22,7 @@ jobs:
           mkdir ./src/main/resources 
           cd ./src/main/resources
           touch ./application.yml
-          echo "${{ secrets.APPLICATION_PROD }}" > ./application.yml
+          echo "${{ secrets.APPLICATION }}" > ./application.yml
       
       - name: Gradle Caching
         uses: actions/cache@v3
