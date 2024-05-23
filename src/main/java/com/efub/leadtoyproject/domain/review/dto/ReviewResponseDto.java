@@ -8,7 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Getter
@@ -30,7 +32,9 @@ public class ReviewResponseDto {
         this.createdDate = review.getCreatedDate();
         this.productId = review.getProduct().getProductId();
         this.memberId = review.getMember().getMemberId();
-        this.imgPaths = review.getReviewImages().stream()
+        this.imgPaths = Optional.ofNullable(review.getReviewImages())
+                .orElse(Collections.emptyList())
+                .stream()
                 .map(reviewImg -> reviewImg.getImgPath())
                 .collect(Collectors.toList());
     }
