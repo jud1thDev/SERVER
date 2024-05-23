@@ -2,6 +2,9 @@ package com.efub.leadtoyproject.global.login;
 
 import com.efub.leadtoyproject.domain.member.domain.Member;
 import com.efub.leadtoyproject.domain.member.repository.MemberRepository;
+import com.efub.leadtoyproject.global.exception.CustomException;
+import com.efub.leadtoyproject.global.exception.ErrorCode;
+import com.efub.leadtoyproject.global.jwt.TokenException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -29,12 +32,11 @@ public class AuthUtils {
                 return memberOptional.get();
             } else {
                 log.error("해당 이메일로 회원을 찾을 수 없습니다: {}", email);
-                throw new NoSuchElementException("제공된 이메일로 회원을 찾을 수 없습니다");
+                throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
             }
         } else {
-            log.info("인증 정보에 이메일이 없습니다.");
-            log.error("현재 회원의 이메일을 찾을 수 없습니다");
-            throw new NoSuchElementException("현재 회원의 이메일을 찾을 수 없습니다");
+            log.error("인증 정보를 가지고 있지 않습니다.");
+            throw new CustomException(ErrorCode.NO_AUTHORIZATION);
         }
     }
 
