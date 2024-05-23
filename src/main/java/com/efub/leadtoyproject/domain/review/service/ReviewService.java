@@ -49,21 +49,23 @@ public class ReviewService {
         Review review = dto.toEntity(product, member);
         reviewRepository.save(review);
 
-        for (MultipartFile multipartFile : files) {
-            if (multipartFile != null && !multipartFile.isEmpty()) {
-                String originalName = multipartFile.getOriginalFilename();
-                String storedName = UUID.randomUUID() + "-" + originalName;
-                String imgPath = imgService.saveImage(multipartFile, storedName);
+        if (files != null) {
+            for (MultipartFile multipartFile : files) {
+                if (multipartFile != null && !multipartFile.isEmpty()) {
+                    String originalName = multipartFile.getOriginalFilename();
+                    String storedName = UUID.randomUUID() + "-" + originalName;
+                    String imgPath = imgService.saveImage(multipartFile, storedName);
 
-                ReviewImg reviewImg = ReviewImg.builder()
-                        .originalName(originalName)
-                        .storedName(storedName)
-                        .imgPath(imgPath)
-                        .review(review)
-                        .build();
+                    ReviewImg reviewImg = ReviewImg.builder()
+                            .originalName(originalName)
+                            .storedName(storedName)
+                            .imgPath(imgPath)
+                            .review(review)
+                            .build();
 
-                review.addReviewImage(reviewImg);
-                reviewImgRepository.save(reviewImg);
+                    review.addReviewImage(reviewImg);
+                    reviewImgRepository.save(reviewImg);
+                }
             }
         }
 

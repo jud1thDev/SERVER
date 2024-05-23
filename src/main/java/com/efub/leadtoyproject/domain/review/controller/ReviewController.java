@@ -32,7 +32,7 @@ public class ReviewController {
     @ResponseStatus(value = HttpStatus.CREATED)
     public ReviewResponseDto registerReview(@PathVariable("productId") final Long productId,
                                             @RequestPart("review")  final String reviewJson,
-                                            @RequestPart("files") List<MultipartFile> files) throws IOException {
+                                            @RequestPart(value = "files", required = false) List<MultipartFile> files) throws IOException {
 
         // JSON 문자열을 ReviewRequestDto 객체로 변환
         ObjectMapper objectMapper = new ObjectMapper();
@@ -40,7 +40,7 @@ public class ReviewController {
 
         Member currentMember = authUtils.getMember();
         if (currentMember == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
         Review registeredReview = reviewService.registerReview(productId, requestDto, files, currentMember);
