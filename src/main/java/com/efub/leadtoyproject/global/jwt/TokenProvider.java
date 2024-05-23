@@ -1,9 +1,9 @@
 package com.efub.leadtoyproject.global.jwt;
 
+import com.efub.leadtoyproject.domain.member.domain.Member;
 import com.efub.leadtoyproject.global.exception.ErrorCode;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SecurityException;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,12 +14,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import com.efub.leadtoyproject.global.exception.TokenException;
 
 import javax.crypto.SecretKey;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -39,10 +39,16 @@ public class TokenProvider {
     }
 
     public String generateAccessToken(Authentication authentication) {
-        String accessToken = generateToken(authentication, ACCESS_TOKEN_EXPIRE_TIME);
         String email = authentication.getName();
-        jwtService.saveOrUpdate(email, accessToken);
-        return accessToken;
+        Member member = jwtService.getOrCreateMemberByEmail(email);
+        String currentToken = member.getAccessToken();
+        if (currentToken != null && validateToken(currentToken)) {
+            // 액세스 토큰이 있으며 유효할 경우에는 accessToken을 바꾸지 않는다
+            return currentToken;
+        }
+        String newAccessToken = generateToken(authentication, ACCESS_TOKEN_EXPIRE_TIME);
+        jwtService.saveOrUpdate(member, newAccessToken);
+        return newAccessToken;
     }
 
     private String generateToken(Authentication authentication, long expireTime) {
@@ -88,10 +94,8 @@ public class TokenProvider {
                     .parseSignedClaims(token).getPayload();
         } catch (ExpiredJwtException e) {
             return e.getClaims();
-        } catch (MalformedJwtException e) {
+        } catch (JwtException e) {
             throw new TokenException(ErrorCode.INVALID_TOKEN);
-        } catch (SecurityException e) {
-            throw new TokenException(ErrorCode.INVALID_JWT_SIGNATURE);
         }
     }
 }
