@@ -1,6 +1,5 @@
 package com.efub.leadtoyproject.global.jwt;
 
-import com.efub.leadtoyproject.global.exception.TokenException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,7 +16,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
         } catch (TokenException e) {
-            response.sendError(e.getErrorCode().getStatus(), e.getMessage());
+            response.sendError(e.getErrorCode().getStatus(), e.getErrorCode().getMessage());
         }
     }
 }
