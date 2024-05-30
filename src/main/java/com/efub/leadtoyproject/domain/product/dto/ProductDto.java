@@ -15,12 +15,13 @@ import lombok.NoArgsConstructor;
 public class ProductDto {
     private String productName;
     private Long categoryId;
+    private Long productId;
     private List<ItemInfoDto> items;
 
     public static ProductDto from(Product product){
         List<ItemInfoDto> items = product.getItems().stream()
                 .map(ItemInfoDto::from)
                 .collect(Collectors.toList());
-        return new ProductDto(product.getProductName(), product.getCategory().getCategoryId(), items);
+        return new ProductDto(product.getProductName(), product.getCategory().getCategoryId(), product.getProductId(), items);
     }
 }
