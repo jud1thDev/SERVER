@@ -60,4 +60,8 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Item> items = new ArrayList<>();
+
+    public void setAvgRating(BigDecimal avgRating) {
+        this.avgRating = avgRating;
+    }
 }

@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/api/products")
 public class ReviewController {
-
     private final ReviewService reviewService;
     private final AuthUtils authUtils;
 
