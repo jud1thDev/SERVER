@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductDto {
     private String productName;
+    private Long originalPrice;
     private Long categoryId;
     private Long productId;
     private List<ItemInfoDto> items;
@@ -22,6 +23,6 @@ public class ProductDto {
         List<ItemInfoDto> items = product.getItems().stream()
                 .map(ItemInfoDto::from)
                 .collect(Collectors.toList());
-        return new ProductDto(product.getProductName(), product.getCategory().getCategoryId(), product.getProductId(), items);
+        return new ProductDto(product.getProductName(), product.getOriginalPrice(),product.getCategory().getCategoryId(), product.getProductId(), items);
     }
 }
