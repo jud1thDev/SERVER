@@ -12,6 +12,7 @@ import com.efub.leadtoyproject.domain.reviewimg.dto.ReviewImgResponseDto;
 import com.efub.leadtoyproject.domain.reviewimg.repository.ReviewImgRepository;
 import com.efub.leadtoyproject.global.login.AuthUtils;
 import com.efub.leadtoyproject.image.ImgService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import java.util.UUID;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
@@ -33,21 +35,12 @@ public class ReviewService {
     private final ReviewImgRepository reviewImgRepository;
     private final AuthUtils authUtils;
 
-    @Autowired
-    public ReviewService(ReviewRepository reviewRepository, ProductService productService, MemberService memberService, ImgService imgService, ReviewImgRepository reviewImgRepository, AuthUtils authUtils) {
-        this.reviewRepository = reviewRepository;
-        this.productService = productService;
-        this.memberService = memberService;
-        this.imgService = imgService;
-        this.reviewImgRepository = reviewImgRepository;
-        this.authUtils = authUtils;
-    }
-
     public Review registerReview(Long productId, ReviewRequestDto dto, List<MultipartFile> files, Member member) throws IOException {
         Product product = productService.findProductById(productId);
 
         Review review = dto.toEntity(product, member);
         reviewRepository.save(review);
+        productService.updateAverageRating(productId);
 
         if (files != null) {
             for (MultipartFile multipartFile : files) {
