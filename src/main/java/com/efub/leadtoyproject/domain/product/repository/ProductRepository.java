@@ -27,7 +27,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "JOIN FETCH p.items i " +
             "JOIN FETCH p.category c " +
             "WHERE i.store = :store AND c.productType = :productType " +
-            "ORDER BY p.productId DESC")
+            "ORDER BY p.productId")
     List<Product> findProductsByStoreAndProductType(@Param("store") String store,
                                                     @Param("productType") ProductType productType);
 }
