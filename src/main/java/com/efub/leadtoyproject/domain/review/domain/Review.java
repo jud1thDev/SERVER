@@ -64,10 +64,6 @@ public class Review {
         this.reviewImages = new ArrayList<>();
     }
 
-//    public void addReviewImage(ReviewImg reviewImg) {
-//        this.reviewImages.add(reviewImg);
-//        reviewImg.setReview(this);
-//    }
 
     public void addReviewImage(ReviewImg reviewImg) {
         if (this.reviewImages == null) {

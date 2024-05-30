@@ -18,7 +18,7 @@ public class ItemController {
 
     /**메인페이지 상품 조회*/
     @GetMapping
-    public ResponseEntity<MainResponseDto> getItemsByStoreAndProductType(@RequestParam final String store) {
+    public ResponseEntity<MainResponseDto> getItemsByStoreAndProductType(@RequestParam("store") final String store) {
         MainResponseDto response = itemService.findMainProducts(store);
         return ResponseEntity.ok(response);
     }
