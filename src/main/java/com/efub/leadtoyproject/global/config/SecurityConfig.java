@@ -47,6 +47,7 @@ public class SecurityConfig {
         configuration.addAllowedOrigin("http://localhost:5173");
         configuration.addAllowedOrigin("http://localhost:5174");
         configuration.addAllowedOrigin("http://localhost:8080");
+        configuration.addAllowedOrigin("https://lead-paladin.vercel.app");
         configuration.addAllowedOrigin("https://api.paladin.n-e.kr");
 
         configuration.addAllowedMethod("*"); //모든 Method 허용(POST, GET, ...)
