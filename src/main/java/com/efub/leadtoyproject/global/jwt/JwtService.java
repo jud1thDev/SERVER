@@ -13,12 +13,12 @@ public class JwtService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public void saveOrUpdate(Member member, String accessToken) {
+    public void updateAccessToken(Member member, String accessToken) {
         member.updateAccessToken(accessToken);
         memberRepository.save(member);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Member getOrCreateMemberByEmail(String email) {
         return memberRepository.findByEmail(email)
                 .orElse(Member.builder()

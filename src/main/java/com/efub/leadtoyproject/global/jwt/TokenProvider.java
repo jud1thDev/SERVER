@@ -19,7 +19,6 @@ import javax.crypto.SecretKey;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -47,7 +46,7 @@ public class TokenProvider {
             return currentToken;
         }
         String newAccessToken = generateToken(authentication, ACCESS_TOKEN_EXPIRE_TIME);
-        jwtService.saveOrUpdate(member, newAccessToken);
+        jwtService.updateAccessToken(member, newAccessToken);
         return newAccessToken;
     }
 
