@@ -22,6 +22,7 @@ public class ProductResponseDto {
     private String info;
     private Long stockQuantity;
     private BigDecimal avgRating;
+    private String imgPath;
     private AllItemResponseDto items;
 
     public static ProductResponseDto from(Product product) {
@@ -37,6 +38,7 @@ public class ProductResponseDto {
                 product.getInfo(),
                 product.getStockQuantity(),
                 product.getAvgRating(),
+                product.getProductImg().getImgPath(),
                 new AllItemResponseDto(itemDtos, itemDtos.size())
                 );
     }

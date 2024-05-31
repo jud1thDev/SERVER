@@ -17,4 +17,5 @@ public class CartItemResponseDto {
     private Long price;
     private String location;
     private String status;
+    private String imgPath;
 }
