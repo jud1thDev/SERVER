@@ -48,7 +48,8 @@ public class CartService {
                         cartItem.getItem().getProduct().getInfo(),
                         cartItem.getItem().getPrice(),
                         cartItem.getItem().getLocation(),
-                        cartItem.getItem().getStatus().name() //TODO enum 확인
+                        cartItem.getItem().getStatus().name(),
+                        cartItem.getItem().getProduct().getProductImg().getImgPath()
                 )).collect(Collectors.toList());
 
         return new CartResponseDto(cartItemDtos.size(), cart.getTotalPrice(), cartItemDtos);
